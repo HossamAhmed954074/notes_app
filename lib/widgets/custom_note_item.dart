@@ -37,7 +37,7 @@ final NoteModel noteItem;
             ),
             Padding(
               padding: const EdgeInsets.only(right: 24.0),
-              child: Text('${noteItem.date.substring(0,10)}', style: TextStyle(color: Colors.black.withValues(alpha: 0.5))),
+              child: Text(noteItem.date, style: TextStyle(color: Colors.black.withValues(alpha: 0.5))),
             ),
           ],
         ),
