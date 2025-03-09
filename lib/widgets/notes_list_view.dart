@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:notes_app/models/note_model.dart';
 import '../cubits/git_notes_cubit/notes_cubit.dart';
 import 'custom_note_item.dart';
@@ -20,14 +21,48 @@ class NotesListView extends StatelessWidget {
             itemCount: list.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: NoteItem(noteItem: list[index]),
-              );
+              return ItemBuilder(list: list,index: index,);
             },
           ),
         );
       },
+    );
+  }
+}
+
+class ItemBuilder extends StatefulWidget {
+  const ItemBuilder({
+    super.key,
+    required this.list, required this.index,
+  });
+
+  final List<NoteModel> list;
+  final int index;
+
+  @override
+  State<ItemBuilder> createState() => _ItemBuilderState();
+}
+
+class _ItemBuilderState extends State<ItemBuilder> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: SwipeActionCell(
+          key: ObjectKey(widget.list[widget.index]),
+          trailingActions: <SwipeAction>[
+            SwipeAction(
+                performsFirstActionWithFullSwipe: true,
+                title: "delete",
+                onTap: (CompletionHandler handler) async  {
+                 widget.list[widget.index].delete();
+                 setState(() {
+
+                 });
+                },
+                color: Colors.red),
+          ],
+      child: NoteItem(noteItem: widget.list[widget.index])),
     );
   }
 }

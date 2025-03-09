@@ -31,7 +31,10 @@ final NoteModel noteItem;
                 ),
               ),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+
+                  noteItem.delete();
+                },
                 icon: Icon(FontAwesomeIcons.trash, color: Colors.black,size: 24,),
               ),
             ),
