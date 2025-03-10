@@ -12,7 +12,7 @@ class NotesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NotesCubit, NotesState>(
       builder: (context, state) {
-        BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+       // BlocProvider.of<NotesCubit>(context).fetchAllNotes();
         List<NoteModel> list =
             BlocProvider.of<NotesCubit>(context).notesList ?? [];
         return Padding(
@@ -21,48 +21,27 @@ class NotesListView extends StatelessWidget {
             itemCount: list.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
-              return ItemBuilder(list: list,index: index,);
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: SwipeActionCell(
+                    key: ObjectKey(list[index]),
+                    trailingActions: <SwipeAction>[
+                      SwipeAction(
+
+                          performsFirstActionWithFullSwipe: true,
+                          title: "delete",
+                          onTap: (CompletionHandler handler)  {
+                           list[index].delete();
+                           BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+                          },
+                          color: Colors.red),
+                    ],
+                child: NoteItem(noteItem: list[index])),
+              );
             },
           ),
         );
       },
-    );
-  }
-}
-
-class ItemBuilder extends StatefulWidget {
-  const ItemBuilder({
-    super.key,
-    required this.list, required this.index,
-  });
-
-  final List<NoteModel> list;
-  final int index;
-
-  @override
-  State<ItemBuilder> createState() => _ItemBuilderState();
-}
-
-class _ItemBuilderState extends State<ItemBuilder> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: SwipeActionCell(
-          key: ObjectKey(widget.list[widget.index]),
-          trailingActions: <SwipeAction>[
-            SwipeAction(
-                performsFirstActionWithFullSwipe: true,
-                title: "delete",
-                onTap: (CompletionHandler handler) async  {
-                 widget.list[widget.index].delete();
-                 setState(() {
-
-                 });
-                },
-                color: Colors.red),
-          ],
-      child: NoteItem(noteItem: widget.list[widget.index])),
     );
   }
 }

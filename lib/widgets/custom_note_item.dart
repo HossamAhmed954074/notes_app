@@ -6,41 +6,63 @@ import '../views/edit_note_view.dart';
 
 class NoteItem extends StatelessWidget {
   const NoteItem({super.key, required this.noteItem});
-final NoteModel noteItem;
+
+  final NoteModel noteItem;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => EditNoteView(),)),
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditNoteView(noteModel: noteItem,),
+
+            ),
+          ),
       child: Container(
         margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.only(top: 24,bottom: 24,left: 16),
+        padding: EdgeInsets.only(top: 24, bottom: 24, left: 16),
         decoration: BoxDecoration(
-          color:const Color(0xffFFCC80),
+          color: const Color(0xffFFCC80),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             ListTile(
-              title: Text(noteItem.title,maxLines: 1,overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black,fontSize: 26)),
+              title: Text(
+                noteItem.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Colors.black, fontSize: 26),
+              ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: Text(
-                  noteItem.content,maxLines: 3,overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.black.withValues(alpha: 0.5),fontSize: 18),
+                  noteItem.content,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    fontSize: 18,
+                  ),
                 ),
               ),
-              trailing: IconButton(
-                onPressed: () {
-
-                  noteItem.delete();
-                },
-                icon: Icon(FontAwesomeIcons.trash, color: Colors.black,size: 24,),
-              ),
+              // trailing: IconButton(
+              //   onPressed: () {
+              //
+              //     noteItem.delete();
+              //   },
+              //   icon: Icon(FontAwesomeIcons.trash, color: Colors.black,size: 24,),
+              // ),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 24.0),
-              child: Text(noteItem.date, style: TextStyle(color: Colors.black.withValues(alpha: 0.5))),
+              child: Text(
+                noteItem.date,
+                style: TextStyle(color: Colors.black.withValues(alpha: 0.5)),
+              ),
             ),
           ],
         ),

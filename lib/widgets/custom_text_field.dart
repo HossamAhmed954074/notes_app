@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({required this.hint, this.maxLine = 1,this.onSaved, super.key});
+  const CustomTextField({required this.hint, this.maxLine = 1,this.onSaved, super.key, this.onChanged});
 
   final String hint;
   final int maxLine;
   final void Function(String?)? onSaved;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -19,6 +20,7 @@ class CustomTextField extends StatelessWidget {
         }
       },
       onSaved: onSaved,
+      onChanged: onChanged,
       cursorColor: KprimaryColor,
       maxLines: maxLine,
       decoration: InputDecoration(
