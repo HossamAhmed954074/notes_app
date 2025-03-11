@@ -19,7 +19,6 @@ class _AddNotesFormState extends State<AddNotesForm> {
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   String? title, content;
 
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -35,22 +34,29 @@ class _AddNotesFormState extends State<AddNotesForm> {
             maxLine: 5,
             onSaved: (val) => content = val,
           ),
+
           SizedBox(height: 24),
+          ColorsListView(),
+          SizedBox(height: 16),
           BlocBuilder<AddNoteCubit, AddNoteState>(
             builder: (context, state) {
               return CustomButton(
-                isLoading: state is AddNoteLoading ? true: false,
+                isLoading: state is AddNoteLoading ? true : false,
                 text: 'Add',
                 onTap: () {
                   if (globalKey.currentState!.validate()) {
                     globalKey.currentState!.save();
                     var currentDate = DateTime.now();
-                    var formatedCurrentDate = DateFormat('dd-mm-yyyy').format(currentDate);
-                    var noteModel = NoteModel(title: title!, content: content!, date: formatedCurrentDate, color: Colors.cyan.r);
-                    BlocProvider.of<AddNoteCubit>(context).addNote(
-                        noteModel
+                    var formatedCurrentDate = DateFormat(
+                      'dd-mm-yyyy',
+                    ).format(currentDate);
+                    var noteModel = NoteModel(
+                      title: title!,
+                      content: content!,
+                      date: formatedCurrentDate,
+                     
                     );
-
+                    BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
                   } else {
                     autoValidateMode = AutovalidateMode.always;
                     setState(() {});
@@ -61,6 +67,72 @@ class _AddNotesFormState extends State<AddNotesForm> {
           ),
           SizedBox(height: 32),
         ],
+      ),
+    );
+  }
+}
+
+class ColorItem extends StatelessWidget {
+  const ColorItem({super.key, required this.color, required this.isActive});
+  final Color color;
+  // Function(Color color) onTap;
+
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return isActive
+        ? CircleAvatar(
+          radius: 34,
+          backgroundColor: Colors.white,
+          child: CircleAvatar(radius: 30, backgroundColor: color),
+        )
+        : CircleAvatar(radius: 32, backgroundColor: color);
+  }
+}
+
+class ColorsListView extends StatefulWidget {
+  const ColorsListView({super.key});
+
+  @override
+  State<ColorsListView> createState() => _ColorsListViewState();
+}
+
+class _ColorsListViewState extends State<ColorsListView> {
+  int itemIndex = 0;
+  List<Color> colorList = [
+    Colors.blueAccent,
+    Colors.tealAccent,
+    Colors.pinkAccent,
+    Colors.orangeAccent,
+    Colors.limeAccent,
+    Colors.lightGreen,
+    Colors.deepPurple,
+    Colors.amber,
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 36 * 2,
+      child: ListView.builder(
+        itemCount: colorList.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder:
+            (context, index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              child: GestureDetector(
+                onTap: () {
+                  itemIndex = index;
+                  BlocProvider.of<AddNoteCubit>(context).color =
+                      colorList[index];
+                  setState(() {});
+                },
+                child: ColorItem(
+                  color: colorList[index],
+                  isActive: itemIndex == index,
+                ),
+              ),
+            ),
       ),
     );
   }

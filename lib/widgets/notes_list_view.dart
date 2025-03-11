@@ -12,7 +12,7 @@ class NotesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NotesCubit, NotesState>(
       builder: (context, state) {
-       // BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+        // BlocProvider.of<NotesCubit>(context).fetchAllNotes();
         List<NoteModel> list =
             BlocProvider.of<NotesCubit>(context).notesList ?? [];
         return Padding(
@@ -23,20 +23,25 @@ class NotesListView extends StatelessWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
+                //todo: this secthion to delete note item
                 child: SwipeActionCell(
-                    key: ObjectKey(list[index]),
-                    trailingActions: <SwipeAction>[
-                      SwipeAction(
-
-                          performsFirstActionWithFullSwipe: true,
-                          title: "delete",
-                          onTap: (CompletionHandler handler)  {
-                           list[index].delete();
-                           BlocProvider.of<NotesCubit>(context).fetchAllNotes();
-                          },
-                          color: Colors.red),
-                    ],
-                child: NoteItem(noteItem: list[index])),
+                  key: ObjectKey(list[index]),
+                  trailingActions: <SwipeAction>[
+                    SwipeAction(
+                      backgroundRadius: 16,
+                      widthSpace: 60,
+                      performsFirstActionWithFullSwipe: true,
+                      title: "delete",
+                      icon: Icon(Icons.delete),
+                      onTap: (CompletionHandler handler) {
+                        list[index].delete();
+                        BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+                      },
+                      color: Colors.red,
+                    ),
+                  ],
+                  child: NoteItem(noteItem: list[index]),
+                ),
               );
             },
           ),
