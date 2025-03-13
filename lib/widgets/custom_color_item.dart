@@ -23,13 +23,14 @@ class ColorItem extends StatelessWidget {
 }
 
 class ColorsListView extends StatefulWidget {
-  const ColorsListView({super.key});
-
+  const ColorsListView({super.key, this.color});
+  final int? color;
   @override
   State<ColorsListView> createState() => _ColorsListViewState();
 }
 
 class _ColorsListViewState extends State<ColorsListView> {
+
   int itemIndex = 0;
   List<Color> colorList = [
     Colors.blueAccent,
@@ -43,6 +44,22 @@ class _ColorsListViewState extends State<ColorsListView> {
   ];
   @override
   Widget build(BuildContext context) {
+
+    if(widget.color!=null){
+      List<Color> l =[];
+      l.add(Color(widget.color!));
+      for(int i = 0 ;i<colorList.length;i++){
+        if(Color(widget.color!) != colorList[i]){
+          l.add(colorList[i]);
+        }else{
+          continue;
+        }
+
+      }
+
+      colorList = l;
+    }
+
     return SizedBox(
       height: 36 * 2,
       child: ListView.builder(
@@ -51,15 +68,18 @@ class _ColorsListViewState extends State<ColorsListView> {
         itemBuilder:
             (context, index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6.0),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   itemIndex = index;
+                  setState(() {
+
+                  });
                   BlocProvider.of<AddNoteCubit>(context).color =
                       colorList[index];
                   setState(() {});
                 },
                 child: ColorItem(
-                  color: colorList[index],
+                  color:colorList[index],
                   isActive: itemIndex == index,
                 ),
               ),
