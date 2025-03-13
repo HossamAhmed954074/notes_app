@@ -45,20 +45,7 @@ class _ColorsListViewState extends State<ColorsListView> {
   @override
   Widget build(BuildContext context) {
 
-    if(widget.color!=null){
-      List<Color> l =[];
-      l.add(Color(widget.color!));
-      for(int i = 0 ;i<colorList.length;i++){
-        if(Color(widget.color!) != colorList[i]){
-          l.add(colorList[i]);
-        }else{
-          continue;
-        }
-
-      }
-
-      colorList = l;
-    }
+    itrarteColorList();
 
     return SizedBox(
       height: 36 * 2,
@@ -86,5 +73,20 @@ class _ColorsListViewState extends State<ColorsListView> {
             ),
       ),
     );
+  }
+
+  void itrarteColorList() {
+     if(widget.color!=null){
+      List<Color> l =[];
+      l.add(Color(widget.color!));
+      for(int i = 0 ;i<colorList.length;i++){
+        if(Color(widget.color!) != colorList[i]){
+          l.add(colorList[i]);
+        }
+
+      }
+
+      colorList = l;
+    }
   }
 }
