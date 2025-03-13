@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
-import 'package:notes_app/models/note_model.dart';
+import '../models/note_model.dart';
 import '../cubits/git_notes_cubit/notes_cubit.dart';
 import 'custom_note_item.dart';
 
